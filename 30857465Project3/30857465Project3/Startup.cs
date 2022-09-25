@@ -1,4 +1,5 @@
 using _30857465Project3.Data;
+using _30857465Project3.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -37,6 +38,10 @@ namespace _30857465Project3
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddTransient<IZoneRepository, ZoneRepository>();
+            services.AddTransient<ICategoriesRepository, CategoriesRepository>();
+            services.AddTransient<IDeviceRepository, DeviceRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
