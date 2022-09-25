@@ -10,9 +10,11 @@ using _30857465Project3.Models;
 
 namespace _30857465Project3.Controllers
 {
+    
     public class CategoriesController : Controller
     {
         private readonly ConnectedOfficeContext _context;
+        
 
         public CategoriesController(ConnectedOfficeContext context)
         {
