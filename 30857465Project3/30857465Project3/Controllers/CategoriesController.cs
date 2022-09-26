@@ -7,19 +7,34 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using _30857465Project3.Data;
 using _30857465Project3.Models;
+using Microsoft.AspNetCore.Authorization;
+using _30857465Project3.Repository;
 
 namespace _30857465Project3.Controllers
 {
-    
+    [Authorize]
     public class CategoriesController : Controller
     {
         private readonly ConnectedOfficeContext _context;
+        private readonly ICategoriesRepository _categoryRepository;
         
 
         public CategoriesController(ConnectedOfficeContext context)
         {
             _context = context;
         }
+
+        public CategoriesController(ICategoriesRepository categoryRepository) 
+        {
+            _categoryRepository = categoryRepository;
+        }
+
+        // TO DO: Add ‘Get By Id’
+        // TO DO: Add ‘Create’
+        // TO DO: Add ‘Edit’
+        // TO DO: Add ‘Delete’
+        // TO DO: Add ‘Exists’
+
 
         // GET: Categories
         public async Task<IActionResult> Index()

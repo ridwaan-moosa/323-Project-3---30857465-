@@ -7,22 +7,38 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using _30857465Project3.Data;
 using _30857465Project3.Models;
+using Microsoft.AspNetCore.Authorization;
+using _30857465Project3.Repository;
 
 namespace _30857465Project3.Controllers
 {
+    [Authorize]
     public class ZonesController : Controller
     {
         private readonly ConnectedOfficeContext _context;
+        private readonly IZoneRepository _zoneRepository;
 
         public ZonesController(ConnectedOfficeContext context)
         {
             _context = context;
         }
 
+        public ZonesController(IZoneRepository zoneRepository)
+        {
+            _zoneRepository = zoneRepository;
+        }
+
+        // TO DO: Add ‘Get By Id’
+        // TO DO: Add ‘Create’
+        // TO DO: Add ‘Edit’
+        // TO DO: Add ‘Delete’
+        // TO DO: Add ‘Exists’
+
+
         // GET: Zones
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Zone.ToListAsync());
+            return View( _zoneRepository.GetAll()); 
         }
 
         // GET: Zones/Details/5
