@@ -15,25 +15,20 @@ namespace _30857465Project3.Controllers
     [Authorize]
     public class ZonesController : Controller
     {
-        private readonly ConnectedOfficeContext _context;
+       // private readonly ConnectedOfficeContext _context;
         private readonly IZoneRepository _zoneRepository;
 
-        public ZonesController(ConnectedOfficeContext context)
-        {
-            _context = context;
-        }
+        //public ZonesController(ConnectedOfficeContext context)
+       // {
+           // _context = context;
+       // }
 
         public ZonesController(IZoneRepository zoneRepository)
         {
             _zoneRepository = zoneRepository;
         }
 
-        // TO DO: Add ‘Get By Id’
-        // TO DO: Add ‘Create’
-        // TO DO: Add ‘Edit’
         // TO DO: Add ‘Delete’
-        // TO DO: Add ‘Exists’
-
 
         // GET: Zones
         public async Task<IActionResult> Index()
@@ -48,9 +43,8 @@ namespace _30857465Project3.Controllers
             {
                 return NotFound();
             }
-
-            var zone = await _context.Zone
-                .FirstOrDefaultAsync(m => m.ZoneId == id);
+            var zone = _zoneRepository.GetById((Guid)id); 
+            
             if (zone == null)
             {
                 return NotFound();
@@ -75,8 +69,10 @@ namespace _30857465Project3.Controllers
             if (ModelState.IsValid)
             {
                 zone.ZoneId = Guid.NewGuid();
-                _context.Add(zone);
-                await _context.SaveChangesAsync();
+                _zoneRepository.Add(zone);
+                //_context.Add(zone);
+                _zoneRepository.SaveChangesAsync();
+                //await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(zone);
@@ -90,7 +86,7 @@ namespace _30857465Project3.Controllers
                 return NotFound();
             }
 
-            var zone = await _context.Zone.FindAsync(id);
+            var zone = _zoneRepository.GetById((Guid)id);
             if (zone == null)
             {
                 return NotFound();
@@ -114,8 +110,9 @@ namespace _30857465Project3.Controllers
             {
                 try
                 {
-                    _context.Update(zone);
-                    await _context.SaveChangesAsync();
+                    _zoneRepository.Add(zone);
+                    _zoneRepository.Update(zone);
+                    _zoneRepository.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -140,9 +137,9 @@ namespace _30857465Project3.Controllers
             {
                 return NotFound();
             }
-
-            var zone = await _context.Zone
-                .FirstOrDefaultAsync(m => m.ZoneId == id);
+            //var zone = await _context.Zone.FirstOrDefaultAsync(m => m.ZoneId == id);
+           
+            var zone = _zoneRepository.GetById((Guid)id);
             if (zone == null)
             {
                 return NotFound();
@@ -156,15 +153,17 @@ namespace _30857465Project3.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var zone = await _context.Zone.FindAsync(id);
-            _context.Zone.Remove(zone);
-            await _context.SaveChangesAsync();
+            var zone = _zoneRepository.GetById((Guid)id);
+            //var zone = await _context.Zone.FindAsync(id);
+            _zoneRepository.Remove(zone);
+            _zoneRepository.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ZoneExists(Guid id)
         {
-            return _context.Zone.Any(e => e.ZoneId == id);
+            return _zoneRepository.ZoneExists(id);
+            //return _context.Zone.Any(e => e.ZoneId == id);
         }
     }
 }

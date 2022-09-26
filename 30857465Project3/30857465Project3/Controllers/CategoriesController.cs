@@ -15,31 +15,29 @@ namespace _30857465Project3.Controllers
     [Authorize]
     public class CategoriesController : Controller
     {
-        private readonly ConnectedOfficeContext _context;
+        //private readonly ConnectedOfficeContext _context;
         private readonly ICategoriesRepository _categoryRepository;
         
 
-        public CategoriesController(ConnectedOfficeContext context)
-        {
-            _context = context;
-        }
+        //public CategoriesController(ConnectedOfficeContext context)
+        //{
+            //_context = context;
+        //}
 
         public CategoriesController(ICategoriesRepository categoryRepository) 
         {
             _categoryRepository = categoryRepository;
         }
 
-        // TO DO: Add ‘Get By Id’
-        // TO DO: Add ‘Create’
-        // TO DO: Add ‘Edit’
+        
         // TO DO: Add ‘Delete’
-        // TO DO: Add ‘Exists’
+       
 
 
         // GET: Categories
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Category.ToListAsync());
+            return View(_categoryRepository.GetAll());
         }
 
         // GET: Categories/Details/5
@@ -50,8 +48,8 @@ namespace _30857465Project3.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Category
-                .FirstOrDefaultAsync(m => m.CategoryId == id);
+            //var category = await _context.Category.FirstOrDefaultAsync(m => m.CategoryId == id);
+            var category = _categoryRepository.GetById((Guid)id);
             if (category == null)
             {
                 return NotFound();
@@ -76,8 +74,8 @@ namespace _30857465Project3.Controllers
             if (ModelState.IsValid)
             {
                 category.CategoryId = Guid.NewGuid();
-                _context.Add(category);
-                await _context.SaveChangesAsync();
+                _categoryRepository.Add(category);
+                _categoryRepository.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(category);
@@ -91,7 +89,7 @@ namespace _30857465Project3.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Category.FindAsync(id);
+            var category = _categoryRepository.FindAsync((Guid)id);
             if (category == null)
             {
                 return NotFound();
@@ -115,8 +113,8 @@ namespace _30857465Project3.Controllers
             {
                 try
                 {
-                    _context.Update(category);
-                    await _context.SaveChangesAsync();
+                    _categoryRepository.Update(category);
+                    _categoryRepository.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -142,8 +140,8 @@ namespace _30857465Project3.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Category
-                .FirstOrDefaultAsync(m => m.CategoryId == id);
+            //var category = await _context.Category.FirstOrDefaultAsync(m => m.CategoryId == id);
+            var category = _categoryRepository.GetById((Guid)id);
             if (category == null)
             {
                 return NotFound();
@@ -157,15 +155,16 @@ namespace _30857465Project3.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var category = await _context.Category.FindAsync(id);
-            _context.Category.Remove(category);
-            await _context.SaveChangesAsync();
+            //var category = await _context.Category.FindAsync(id);
+            var category = _categoryRepository.FindAsync((Guid)id);
+            _categoryRepository.Remove(category);
+            _categoryRepository.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CategoryExists(Guid id)
         {
-            return _context.Category.Any(e => e.CategoryId == id);
+            return _categoryRepository.CategoryExists(id);
         }
     }
 }
