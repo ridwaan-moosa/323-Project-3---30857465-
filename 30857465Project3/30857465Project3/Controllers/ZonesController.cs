@@ -137,9 +137,7 @@ namespace _30857465Project3.Controllers
             {
                 return NotFound();
             }
-            //var zone = await _context.Zone.FirstOrDefaultAsync(m => m.ZoneId == id);
-           
-            var zone = _zoneRepository.GetById((Guid)id);
+            var zone = await _zoneRepository.Zone().FirstOrDefaultAsync(m => m.ZoneId == id);
             if (zone == null)
             {
                 return NotFound();
@@ -155,7 +153,7 @@ namespace _30857465Project3.Controllers
         {
             var zone = _zoneRepository.GetById((Guid)id);
             //var zone = await _context.Zone.FindAsync(id);
-            _zoneRepository.Remove(zone);
+            _zoneRepository.Zone().Remove(zone);
             _zoneRepository.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
