@@ -37,8 +37,10 @@ namespace _30857465Project3.Controllers
         // GET: Categories
         public async Task<IActionResult> Index()
         {
-            return View(_categoryRepository.GetAll());
+            var results = _categoryRepository.GetAll();
+            return View(results);
         }
+       
 
         // GET: Categories/Details/5
         public async Task<IActionResult> Details(Guid? id)
@@ -49,7 +51,7 @@ namespace _30857465Project3.Controllers
             }
 
             //var category = await _context.Category.FirstOrDefaultAsync(m => m.CategoryId == id);
-            var category = _categoryRepository.GetById((Guid)id);
+            var category =  _categoryRepository.GetById((Guid)id);
             if (category == null)
             {
                 return NotFound();

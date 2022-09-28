@@ -24,5 +24,6 @@ namespace _30857465Project3.Repository
         public DbSet<Category> Category();
         public DbSet<Zone> Zone();
 
+
     }
 }

@@ -38,7 +38,7 @@ namespace _30857465Project3.Controllers
         {
             //var connectedOfficeContext = _context.Device.Include(d => d.Category).Include(d => d.Zone);
             
-            return View(_deviceRepository.GetAll());
+            return View( _deviceRepository.GetAll());
         }
 
         // GET: Devices/Details/5

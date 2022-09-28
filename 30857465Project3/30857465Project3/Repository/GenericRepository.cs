@@ -1,11 +1,13 @@
 ﻿using _30857465Project3.Data;
 using _30857465Project3.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace _30857465Project3.Repository
 {
@@ -16,7 +18,7 @@ namespace _30857465Project3.Repository
         {
             _context = context;
         }
-        public void Add(T entity)
+        public  void Add(T entity)
         {
             _context.Set<T>().Add(entity);
             
@@ -80,7 +82,7 @@ namespace _30857465Project3.Repository
 
             return _context.Zone;
         }
-
+        
 
     }
 
